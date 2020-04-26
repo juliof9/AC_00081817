@@ -56,3 +56,7 @@ first:  add bx, 1h
 next:   cmp bx, 21Fh
         jb esti
         int 10h
+
+;Ejercicio3
+
+        
