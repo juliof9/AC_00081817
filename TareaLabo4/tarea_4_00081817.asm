@@ -38,3 +38,21 @@
     mov [20Bh], cl
     mov cl, "o"
     mov [20Ch], cl
+
+;Ejercicio2
+
+        mov ax, 0000h
+        mov al, 2d
+        mov bx, 210h
+        mov cx, 2d
+esti:   mul cx
+        mov [bx], ax
+        cmp ah, 00h
+        ja second
+        je first
+second: add bx, 2h
+        jmp next
+first:  add bx, 1h
+next:   cmp bx, 21Fh
+        jb esti
+        int 10h
