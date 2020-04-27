@@ -59,21 +59,21 @@ next:   cmp bx, 21Fh
 
 ;Ejercicio3
 
-    mov     ax, 0000h 
-    mov     bx, 0000h
-    mov     cx, 0000h
-    mov     ax, 0d
-    mov     di, 0d
-    mov     cx, 0015d
-    mov     dx, 1d
+    mov ax, 0000h 
+    mov bx, 0000h
+    mov cx, 0000h
+    mov ax, 0d
+    mov di, 0d
+    mov cx, 0015d
+    mov dx, 1d
 
-    lupe:mov    [di + 220h], ax    
-    inc     di
+fibonacci: mov    [di + 220h], ax    
     
-    mov     bx,ax
-    add     ax, dx
-    mov     dx, bx
+    inc di
+    mov bx, ax
+    add ax, dx
+    mov dx, bx
 
+    loop fibonacci
     
-    loop    lupe
     int 20h        
