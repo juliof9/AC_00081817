@@ -5,9 +5,9 @@ section .text
 	call 	texto	
 	call 	cursor
 	call 	phrase
-    	call    phrase1
-    	call    phrase2
-    	call    phrase3
+    call    phrase1
+    call    phrase2
+    call    phrase3
 	call	kbwait
 
 	int 	20h
