@@ -1,79 +1,115 @@
-    org     100h
-    ;Ejercicio1
-    ;carnet=00081817 = 25 = 25/5 = 5
-    ;Respuesta=5, "En el segundo"(Un clasico para mi xd)
+org 	100h
 
-    mov ax, 000h
-    add ax, 8d
-    add ax, 1d
-    add ax, 8d
-    add ax, 1d
-    add ax, 7d
-    mov cl, 5d
-    div cl
+section .text
 
-    mov cl, "E"
-    mov [200h], cl
-    mov cl, "n"
-    mov [201h], cl
-    mov cl, " "
-    mov [202h], cl
-    mov cl, "e"
-    mov [203h], cl
-    mov cl, "l"
-    mov [204h], cl
-    mov cl, " "
-    mov [205h], cl
-    mov cl, "s"
-    mov [206h], cl
-    mov cl, "e"
-    mov [207h], cl
-    mov cl, "g"
-    mov [208h], cl
-    mov cl, "u"
-    mov [209h], cl
-    mov cl, "n"
-    mov [20Ah], cl
-    mov cl, "d"
-    mov [20Bh], cl
-    mov cl, "o"
-    mov [20Ch], cl
+	mov 	dx, msg
+	call 	w_strng
+	xor 	si, si 	;Basicamente es lo mismo que: mov si, 0000h
+	mov     bl, 0
+	mov     bh, 0
 
-;Ejercicio2
+lupita:	
+    call 	kb
+	cmp 	al, "$"
+	je	    mostrar1
 
-        mov ax, 0000h
-        mov al, 2d
-        mov bx, 210h
-        mov cx, 2d
-esti:   mul cx
-        mov [bx], ax
-        cmp ah, 00h
-        ja second
-        je first
-second: add bx, 2h
-        jmp next
-first:  add bx, 1h
-next:   cmp bx, 21Fh
-        jb esti
-        int 10h
+	mov	    [300h+si], al ; despues de CS:0300h
+	
+	sub     al, 48
+	mov     ah, 0
+	add     bl, al
+	inc 	si
+	jmp 	lupita
 
-;Ejercicio3
-
-    mov ax, 0000h 
-    mov bx, 0000h
-    mov cx, 0000h
-    mov ax, 0d
-    mov di, 0d
-    mov cx, 0015d
-    mov dx, 1d
-
-fibonacci: mov    [di + 220h], ax    
+mostrar1:
     
-    inc di
-    mov bx, ax
-    add ax, dx
-    mov dx, bx
+    mov 	dx, nl
+	call	w_strng
+	mov	    byte [300h+si], "$"
 
-    loop fibonacci
+	mov 	dx, msgp
+	call 	w_strng
+	mov		ax, 0
+	mov		al, bl
+	mov		cl, 5d
+	div		cl
+
+	cmp		al, 1d
+	mov		dx, msg10
+	je		mostrar2
+
+	cmp		al, 2d
+	mov		dx,msg9
+	je		mostrar2
+
+	cmp		al,3d
+	mov		dx,msg8
+	je		mostrar2
+
+	cmp		al,4d
+	mov		dx,msg7
+	je		mostrar2
+
+	cmp		al,5d
+	mov		dx,msg6
+	je		mostrar2
+
+	cmp		al,6d
+	mov		dx,msg5
+	je		mostrar2
+
+	cmp		al,7d
+	mov		dx,msg4
+	je		mostrar2
+
+	cmp		al,8d
+	mov		dx,msg3
+	je		mostrar2
+
+	cmp		al,9d
+	mov		dx,msg2
+	je		mostrar2
+
+	cmp		al,10d
+	mov		dx,msg1
+	je		mostrar2
+
+
+texto:	
     
-    int 20h        
+    mov 	ah, 00h
+	mov	    al, 03h
+	int 	10h
+	ret
+
+kb: 	
+    mov 	ah, 1h
+	int 	21h
+	ret
+
+w_strng:
+    mov	    ah, 09h
+	int 	21h
+	ret
+
+mostrar2:
+	call 	w_strng
+	call 	kb	; solo se detiene la ejecucion del codigo
+	int 	20h
+
+section .data
+
+msg 	db 	"Ingrese sus numeros: $"
+msgp	db	"su promedio es: $"
+msg1	db	"Perfecto solo Dios $"
+msg2	db	"Siempre me esfuerzo $"
+msg3	db	"Colocho $"
+msg4	db	"Muy bien $"
+msg5	db	"Peor es nada $"
+msg6	db	"En el segundo $"
+msg7	db	"Me recupero $"
+msg8	db	"Hay salud $"
+msg9	db	"Aun se pasa $"
+msg10	db	"Solo necesito el 0 $"
+
+nl	db 	0xA, 0xD, "$"
